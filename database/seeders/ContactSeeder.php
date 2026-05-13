@@ -25,10 +25,12 @@ class ContactSeeder extends Seeder
 
                 echo "Random Tags: " . $randomTags->pluck('id')->implode(',') . "\n";
 
-                $contact->tags()->attach($randomTags->pluck('id'));
-                //$contact->tags()->attach(
-                //Tag::inRandomOrder()->take(fake()->numberBetween(1, 3))->pluck('id')
-                //);
+                foreach ($randomTags as $tag) {
+                    $contact->tags()->attach($tag->id, [
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }
             });
     }
 }
