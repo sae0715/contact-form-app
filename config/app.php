@@ -1,5 +1,6 @@
 <?php
 
+use App\Providers\FortifyServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
@@ -163,6 +164,7 @@ return [
         /*
          * Application Service Providers...
          */
+        App\Providers\FortifyServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
@@ -170,6 +172,7 @@ return [
         App\Providers\RouteServiceProvider::class,
     ])->toArray(),
 
+    App\Providers\FortifyServiceProvider::class,
     /*
     |--------------------------------------------------------------------------
     | Class Aliases
