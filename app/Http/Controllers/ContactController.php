@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreContactRequest;
 use App\Models\Category;
 use App\Models\Contact;
 use App\Models\Tag;
+use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
@@ -33,7 +34,7 @@ class ContactController extends Controller
             'category_id' => 'required|integer|exists:categories,id',
             'detail' => 'required|string|max:120',
         ], [
-            'first_name.required' => '姓を入力してください',
+            'first_name.required' => 'お名前を入力してください',
             'last_name.required' => '名を入力してください',
             'gender.required' => '性別を選択してください',
             'email.required' => 'メールアドレスを入力してください',
@@ -47,8 +48,9 @@ class ContactController extends Controller
 
         $categories = Category::all();
         $category = Category::find($request->input('category_id'));
-        $tags_ids = $request->input('tag_ids', []);
-        $tags = Tag::whereIn('id', $tags_ids)->get();
+
+        $tag_ids = $request->input('tag_ids', []);
+        $tags = Tag::whereIn('id', $tag_ids)->get();
 
         return view('contact.confirm', [
             'categories' => $categories,
@@ -58,21 +60,9 @@ class ContactController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreContactRequest $request)  // ← FormRequest を使う！
     {
-        $validated = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'gender' => 'required|integer|in:1,2,3',
-            'email' => 'required|string|email|max:255',
-            'tel' => 'required|string|regex:/^[0-9]{10,11}$/',
-            'address' => 'required|string|max:255',
-            'building' => 'nullable|string|max:255',
-            'category_id' => 'required|integer|exists:categories,id',
-            'detail' => 'required|string|max:120',
-            'tag_ids' => 'nullable|array',
-            'tag_ids.*' => 'integer|exists:tags,id',
-        ]);
+        $validated = $request->validated();  // ← バリデーション済みデータ
 
         $contact = Contact::create($validated);
 
