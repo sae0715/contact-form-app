@@ -1,7 +1,4 @@
-# コンタクトフォームアプリ
-
-## プロジェクト名
-contact-form-app
+# COACHTECH お問い合わせフォーム
 
 ## 概要
 お問い合わせフォーム機能と管理画面を備えたLaravelアプリケーション
@@ -9,6 +6,7 @@ contact-form-app
 お客様からのお問い合わせを受け付け、管理者が一元管理できるシステムです。
 
 ## ER図
+
 ```mermaid
 erDiagram
     USERS ||--o{ CONTACTS : creates
@@ -21,11 +19,15 @@ erDiagram
         string name
         string email
         string password
+        timestamp created_at
+        timestamp updated_at
     }
     
     CATEGORIES {
         int id
         string content
+        timestamp created_at
+        timestamp updated_at
     }
     
     CONTACTS {
@@ -39,17 +41,23 @@ erDiagram
         string address
         string building
         string detail
+        timestamp created_at
+        timestamp updated_at
     }
     
     TAGS {
         int id
         string name
+        timestamp created_at
+        timestamp updated_at
     }
     
     CONTACT_TAG {
         int id
         int contact_id
         int tag_id
+        timestamp created_at
+        timestamp updated_at
     }
 ```
 
@@ -63,7 +71,7 @@ erDiagram
 
 ```bash
 # リポジトリをクローン
-git clone <リポジトリURL>
+git clone https://github.com/sae0715/contact-form-app.git
 cd contact-form-app
 
 # Sailを起動
@@ -90,8 +98,8 @@ sail npm run dev
 
 ## APIエンドポイント一覧
 
-| メソッド | エンドポイント | 説明 |
-|---------|--------------|------|
+| メソッド | エンドポイント | 説明 | ステータス |
+|---------|--------------|------|----------|
 | GET | / | お問い合わせフォーム表示 |
 | POST | /contacts/confirm | お問い合わせ確認 |
 | POST | /contacts | お問い合わせ送信 |
@@ -104,8 +112,9 @@ sail npm run dev
 | GET | /admin | 管理画面 |
 
 ## 開発環境URL
-- **アプリケーション:** http://localhost
-- **phpMyAdmin:** http://localhost:8080
+- リポジトリ：https://github.com/sae0715/contact-form-app.git
+- アプリケーション：http://localhost
+- phpMyAdmin：http://localhost:8080
 
 ## アクセス方法
 
@@ -124,12 +133,13 @@ sail npm run dev
 
 ## テストアカウント
 
-- **メール:** test@example.com
-- **パスワード:** password
+メール：test@example.com
+パスワード：password
 
 ## トラブルシューティング
 
 ### アプリが起動しない場合
+
 ```bash
 sail artisan config:clear
 sail artisan cache:clear
@@ -138,7 +148,9 @@ sail up -d
 ```
 
 ### M1/M2/M3 Mac で「no matching manifest」エラーが出た場合
-`compose.yaml` を開き、mysql サービスに以下を追加：
+
+compose.yaml を開き、mysql サービスに以下を追加：
+
 ```yaml
 mysql:
     image: 'mysql/mysql-server:8.0'
@@ -146,4 +158,4 @@ mysql:
 ```
 
 ## 作成者
-[inamine]
+稲嶺
